@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
         int lastAt=0;
 
         for(int i=0;i<dataInput.length();i++){
-            if(dataInput.charAt(i)=='+'||dataInput.charAt(i)=='-'){
+            if(dataInput.charAt(i)=='+'||dataInput.charAt(i)=='-'||dataInput.charAt(i)=='*'||dataInput.charAt(i)=='/'){
                 data.add(dataInput.substring(lastAt,i));
                 lastAt=i+1;
                 data.add(dataInput.substring(i,i+1));
@@ -44,6 +44,38 @@ public class MainActivity extends AppCompatActivity{
 
         data.add(dataInput.substring(lastAt));
 
+        for (String string : data){
+            Log.d("dataTest",string);
+        }
+
+        //handle *
+        ArrayList<String> dataMultiplied = new ArrayList<>();
+        boolean recentlyMultiplied = false;
+        int indexOfLastMultiplication = 0;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).contentEquals("*")){
+                dataMultiplied.add(String.valueOf(Double.parseDouble(data.get(i-1))*Double.parseDouble(data.get(i+1))));
+                indexOfLastMultiplication=i;
+                recentlyMultiplied=true;
+            } else if (indexOfLastMultiplication!=0){
+                indexOfLastMultiplication=0;
+                continue;
+            } else if (i<data.size()-1 && !data.get(i+1).contentEquals("*")) {
+                dataMultiplied.add(data.get(i));
+                recentlyMultiplied=false;
+            }
+        }
+
+        if (!recentlyMultiplied){
+            dataMultiplied.add(data.get(data.size()-1));
+        }
+
+        Log.d("dataTest","----------------------");
+        for (String string : dataMultiplied){
+            Log.d("dataTest",string);
+        }
+
+        //handle + and -
         double result=0;
 
         for(int i=0;i<data.size();i++) {
@@ -59,10 +91,5 @@ public class MainActivity extends AppCompatActivity{
         }
 
         textView.setText(String.valueOf(result));
-
-        for (String string : data){
-            //System.out.println(string);
-            Log.d("dataTest",string);
-        }
     }
 }
