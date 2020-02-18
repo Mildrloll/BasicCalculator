@@ -44,6 +44,20 @@ public class MainActivity extends AppCompatActivity{
 
         data.add(dataInput.substring(lastAt));
 
+        double result=0;
+
+        for(int i=0;i<data.size();i++) {
+            if (i!=0){
+                if(data.get(i).contentEquals("+")){
+                    result+=Double.parseDouble(data.get(i+1));
+                }
+            }else{
+                result=Double.parseDouble(data.get(i));
+            }
+        }
+
+        textView.setText(String.valueOf(result));
+
         for (String string : data){
             //System.out.println(string);
             Log.d("dataTest",string);
