@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
         int lastAt=0;
 
         for(int i=0;i<dataInput.length();i++){
-            if(dataInput.charAt(i)=='+'){
+            if(dataInput.charAt(i)=='+'||dataInput.charAt(i)=='-'){
                 data.add(dataInput.substring(lastAt,i));
                 lastAt=i+1;
                 data.add(dataInput.substring(i,i+1));
@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity{
             if (i!=0){
                 if(data.get(i).contentEquals("+")){
                     result+=Double.parseDouble(data.get(i+1));
+                }else if(data.get(i).contentEquals("-")){
+                    result-=Double.parseDouble(data.get(i+1));
                 }
             }else{
                 result=Double.parseDouble(data.get(i));
