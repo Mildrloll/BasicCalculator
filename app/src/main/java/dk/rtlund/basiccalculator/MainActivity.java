@@ -75,19 +75,51 @@ public class MainActivity extends AppCompatActivity{
             Log.d("dataTest",string);
         }
 
+        //handle /
+        ArrayList<String> dataDivided = new ArrayList<>();
+        boolean recentlyDivided = false;
+        int indexOfLastDivision = 0;
+        for (int i = 0; i < dataMultiplied.size(); i++) {
+            if (dataMultiplied.get(i).contentEquals("/")){
+                dataDivided.add(String.valueOf(Double.parseDouble(dataMultiplied.get(i-1))/Double.parseDouble(dataMultiplied.get(i+1))));
+                indexOfLastDivision=i;
+                recentlyDivided=true;
+            } else if (indexOfLastDivision!=0){
+                indexOfLastDivision=0;
+                continue;
+            } else if (i<dataMultiplied.size()-1 && !dataMultiplied.get(i+1).contentEquals("/")) {
+                dataDivided.add(dataMultiplied.get(i));
+                recentlyDivided=false;
+            }
+        }
+
+        if (!recentlyDivided){
+            dataMultiplied.add(dataMultiplied.get(dataMultiplied.size()-1));
+        }
+
+        Log.d("dataTest","----------------------");
+        for (String string : dataDivided){
+            Log.d("dataTest",string);
+        }
+
         //handle + and -
         double result=0;
 
-        for(int i=0;i<data.size();i++) {
+        for(int i=0;i<dataDivided.size();i++) {
             if (i!=0){
-                if(data.get(i).contentEquals("+")){
-                    result+=Double.parseDouble(data.get(i+1));
-                }else if(data.get(i).contentEquals("-")){
-                    result-=Double.parseDouble(data.get(i+1));
+                if(dataDivided.get(i).contentEquals("+")){
+                    result+=Double.parseDouble(dataDivided.get(i+1));
+                }else if(dataDivided.get(i).contentEquals("-")){
+                    result-=Double.parseDouble(dataDivided.get(i+1));
                 }
             }else{
-                result=Double.parseDouble(data.get(i));
+                result=Double.parseDouble(dataDivided.get(i));
             }
+        }
+
+        Log.d("dataTest","----------------------");
+        for (String string : dataDivided){
+            Log.d("dataTest",string);
         }
 
         textView.setText(String.valueOf(result));
