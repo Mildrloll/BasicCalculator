@@ -36,11 +36,13 @@ public class MainActivity extends AppCompatActivity{
 
         for(int i=0;i<dataInput.length();i++){
             if(dataInput.charAt(i)=='+'){
-                data.add(dataInput.substring(lastAt,i-1));
+                data.add(dataInput.substring(lastAt,i));
                 lastAt=i+1;
-                data.add(dataInput.substring(i,i));
+                data.add(dataInput.substring(i,i+1));
             }
         }
+
+        data.add(dataInput.substring(lastAt));
 
         for (String string : data){
             //System.out.println(string);
